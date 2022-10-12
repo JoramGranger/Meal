@@ -1,25 +1,20 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import { View, Text, FlatList } from "react-native";
 
-import OrderListItem from '../../components/OrderListItem'
-import orders from '../../../assets/data/orders.json';
+import OrderListItem from "../../components/OrderListItem";
+import { useOrderContext } from "../../contexts/OrderContext";
 
-const OrdersScreen = () => {
+const OrderScreen = () => {
+  const { orders } = useOrderContext();
+  console.log(orders);
+
   return (
-    <View style={styles.page}>
-      <FlatList data={orders}
-      renderItem={({ item }) => <OrderListItem order={item} /> }
+    <View style={{ flex: 1, width: "100%" }}>
+      <FlatList
+        data={orders}
+        renderItem={({ item }) => <OrderListItem order={item} />}
       />
     </View>
-  )
+  );
 };
 
-const styles = StyleSheet.create({
-    page: {
-      flex: 1,
-      width: '100%',
-      /* paddingTop: 50, */
-    },
-  });
-
-
-export default OrdersScreen;
+export default OrderScreen;

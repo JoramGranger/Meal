@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigation';
 import AuthContextProvider from './src/contexts/AuthContext';
 import BasketContextProvider from './src/contexts/BasketContext';
+import OrderContextProvider from './src/contexts/OrderContext';
 
 import { Amplify } from 'aws-amplify';
 import config from './src/aws-exports';
@@ -16,7 +17,9 @@ function App() {
     <NavigationContainer>
       <AuthContextProvider>
         <BasketContextProvider>
-          <RootNavigator />
+          <OrderContextProvider>
+            <RootNavigator />
+          </OrderContextProvider>
         </BasketContextProvider>
       </AuthContextProvider>
       <StatusBar style="light" />

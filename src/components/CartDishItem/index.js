@@ -5,10 +5,10 @@ const CartDishItem = ({ cartDish }) => {
     return(
         <View style={styles.row}>
         <View style={styles.quantityContainer}>
-            <Text>1</Text>
+            <Text>{cartDish.quantity}</Text>
         </View>
-        <Text style={{fontWeight: '600'}}>{cartDish.name}</Text>
-        <Text style={{ marginLeft: 'auto'}}>{cartDish.price}</Text>
+        <Text style={{fontWeight: '600'}}>{cartDish.Dish.name}</Text>
+        <Text style={{ marginLeft: 'auto'}}>{cartDish.Dish.price}</Text>
     </View>
     );
 };
