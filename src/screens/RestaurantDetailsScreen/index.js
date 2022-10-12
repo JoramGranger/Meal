@@ -22,14 +22,17 @@ const RestaurantDetailsScreen = () => {
     const id = route.params?.id;
     
     useEffect(() => {
+        if(!id){
+            return;
+        }
         DataStore.query(Restaurant, id).then(setRestaurant);
         DataStore.query(Dish, (dish) => dish.restaurantID("eq", id)).then(setDishes);
-    }, []);
+    }, [id]);
 
     const navigation = useNavigation();
 
     if(!restaurant) {
-        return <ActivityIndicator size={"large"} color="grey"/>;
+        return <ActivityIndicator size="large" color="black"/>;
     }
     console.log
 
