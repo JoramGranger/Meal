@@ -1,32 +1,59 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {Auth, DataStore } from 'aws-amplify';
-import { User } from '../../models';
+import { Auth, DataStore } from "aws-amplify";
+import { User } from "../../models";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [latitude, setLatitude] = useState("0");
-  const [longitude, setLongitude] = useState("0");
+  const { dbUser } = useAuthContext();
+
+  const [name, setName] = useState(dbUser?.name || "");
+  const [address, setAddress] = useState(dbUser?.address || "");
+  const [latitude, setlatitude] = useState(dbUser?.latitude + "" || "0");
+  const [longitude, setlongitude] = useState(dbUser?.longitude + "" || "0");
 
   const { sub, setDbUser } = useAuthContext();
 
+  const navigation = useNavigation();
+
   const onSave = async () => {
+    if (dbUser) {
+      await updateUser();
+    } else {
+      await createUser();
+    }
+    navigation.goBack();
+  };
+
+  const updateUser = async () => {
+    const user = await DataStore.save(
+      User.copyOf(dbUser, (updated) => {
+        updated.name = name;
+        updated.address = address;
+        updated.latitude = parseFloat(latitude);
+        updated.longitude = parseFloat(longitude);
+      })
+    );
+    setDbUser(user);
+  };
+
+  const createUser = async () => {
     try {
-      const user = await DataStore.save(new User({
-        name, 
-        address, 
-        latitude: parseFloat(latitude), 
-        longitude: parseFloat(longitude),
-        sub
-      }));
+      const user = await DataStore.save(
+        new User({
+          name,
+          address,
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+          sub,
+        })
+      );
       setDbUser(user);
     } catch (e) {
       Alert.alert("Error", e.message);
     }
-    
   };
 
   return (
@@ -46,19 +73,24 @@ const Profile = () => {
       />
       <TextInput
         value={latitude}
-        onChangeText={setLatitude}
-        placeholder="Latitude"
+        onChangeText={setlatitude}
+        placeholder="latitudeitude"
         style={styles.input}
         keyboardType="numeric"
       />
       <TextInput
         value={longitude}
-        onChangeText={setLongitude}
+        onChangeText={setlongitude}
         placeholder="Longitude"
         style={styles.input}
       />
-      <Button onPress={onSave} title="Save"  style={{margin: 10}}/>
-      <Text onPress={() => Auth.signOut()} style={styles.signout}>Sign out</Text>
+      <Button onPress={onSave} title="Save" />
+      <Text
+        onPress={() => Auth.signOut()}
+        style={{ textAlign: "center", color: "red", margin: 10 }}
+      >
+        Sign out
+      </Text>
     </SafeAreaView>
   );
 };
@@ -76,11 +108,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
   },
-  signout: {
-    margin: 10,
-    color: 'red',
-    textAlign: 'center',
-  }
 });
 
 export default Profile;
