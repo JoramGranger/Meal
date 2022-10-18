@@ -1,28 +1,32 @@
-import { View, Image, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import styles from "./styles";
 
-const DEFAULT_IMAGE = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant2.jpeg";
+const DEFAULT_IMAGE =
+  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant1.jpeg";
 
+const RestaurantHeader = ({ restaurant }) => {
+  return (
+    <View style={styles.page}>
+      <Image
+        source={{
+          uri: restaurant.image.startsWith("http")
+            ? restaurant.image
+            : DEFAULT_IMAGE,
+        }}
+        style={styles.image}
+      />
 
-const Header = ({ restaurant }) => {
-    return ( 
-        <View style={styles.page}>
-            <Image source={{ uri: restaurant.image.startsWith("http") ? restaurant.image : DEFAULT_IMAGE, }}
-            style={styles.image}
-            />
-            {/* <View style={styles.iconContainer}>
-                <Ionicons name="arrow-back-circle" size={45} color="white" style={styles.iconContainer}/>
-            </View> */}
-            <View style={styles.container}>
-                <Text style={styles.title}>{restaurant.name}</Text>
-                <Text style={styles.subtitle}>
-                    {restaurant.deliveryFee.toFixed(0)},{" "} {restaurant.minDeliveryTime} - {restaurant.maxDeliveryTime}
-                </Text>
-                <Text style={styles.menuTitle}>Menu</Text>
-            </View>
-        </View>
-     );
-}
+      <View style={styles.container}>
+        <Text style={styles.title}>{restaurant.name}</Text>
+        <Text style={styles.subtitle}>
+          UGX {restaurant.deliveryFee.toFixed(0)} &#8226; {restaurant.minDeliveryTime}-
+          {restaurant.maxDeliveryTime} minutes
+        </Text>
 
-export default Header;
- 
+        <Text style={styles.menuTitle}>Menu</Text>
+      </View>
+    </View>
+  );
+};
+
+export default RestaurantHeader;

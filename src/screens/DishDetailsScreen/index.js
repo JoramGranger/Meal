@@ -14,7 +14,7 @@ import { useBasketContext } from "../../contexts/BasketContext";
 
 const DishDetailsScreen = () => {
   const [dish, setDish] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -34,7 +34,7 @@ const DishDetailsScreen = () => {
   };
 
   const onMinus = () => {
-    if (quantity > 0) {
+    if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
@@ -44,7 +44,7 @@ const DishDetailsScreen = () => {
   };
 
   const getTotal = () => {
-    return (dish.price * quantity).toFixed(0);
+    return (dish.price * quantity).toFixed(2);
   };
 
   if (!dish) {
@@ -75,7 +75,7 @@ const DishDetailsScreen = () => {
 
       <Pressable onPress={onAddToBasket} style={styles.button}>
         <Text style={styles.buttonText}>
-          Add {quantity} to basket &#8226; UGX {getTotal()}
+          Add {quantity} to basket &#8226; UGX{getTotal()}
         </Text>
       </Pressable>
     </View>

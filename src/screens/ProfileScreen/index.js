@@ -11,8 +11,8 @@ const Profile = () => {
 
   const [name, setName] = useState(dbUser?.name || "");
   const [address, setAddress] = useState(dbUser?.address || "");
-  const [latitude, setlatitude] = useState(dbUser?.latitude + "" || "0");
-  const [longitude, setlongitude] = useState(dbUser?.longitude + "" || "0");
+  const [latitude, setLatitude] = useState(dbUser?.latitude + "" || "0");
+  const [longitude, setLongitude] = useState(dbUser?.longitude + "" || "0");
 
   const { sub, setDbUser } = useAuthContext();
 
@@ -73,14 +73,14 @@ const Profile = () => {
       />
       <TextInput
         value={latitude}
-        onChangeText={setlatitude}
-        placeholder="latitudeitude"
+        onChangeText={setLatitude}
+        placeholder="latitude"
         style={styles.input}
         keyboardType="numeric"
       />
       <TextInput
         value={longitude}
-        onChangeText={setlongitude}
+        onChangeText={setLongitude}
         placeholder="Longitude"
         style={styles.input}
       />
