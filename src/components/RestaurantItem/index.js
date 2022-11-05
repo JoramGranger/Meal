@@ -8,7 +8,7 @@ const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("Restaurant", { id: restaurant.id });
+    navigation.navigate("Restaurant", { id: restaurant?.id });
   };
 
   return (
@@ -31,7 +31,7 @@ const RestaurantItem = ({ restaurant }) => {
         </View>
 
         <View style={styles.rating}>
-          <Text>{restaurant.rating.toFixed(1)}</Text>
+          <Text>{restaurant?.rating?.toFixed(1)}</Text>
         </View>
       </View>
     </Pressable>
